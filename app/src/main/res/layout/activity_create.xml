@@ -30,6 +30,7 @@
             <EditText
                 android:id="@+id/edit_room_id"
                 android:layout_width="match_parent"
+                android:maxLines="1"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="99"
@@ -75,6 +76,7 @@
             <EditText
                 android:id="@+id/edit_nickname"
                 android:layout_width="match_parent"
+                android:maxLines="1"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="99"
@@ -121,6 +123,7 @@
             <EditText
                 android:id="@+id/edit_password"
                 android:layout_width="match_parent"
+                android:maxLines="1"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="99"

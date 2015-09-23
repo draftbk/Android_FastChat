@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.apple.myapplication.Application.Info;
 import com.example.apple.myapplication.Bean.Login;
 import com.example.apple.myapplication.R;
 import com.example.apple.myapplication.tools.DoubleClickJuage;
@@ -27,6 +28,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private EditText editRoom,editNickname;
     private Button buttonLogin,buttonCreate;
     private String roomId,nickname,password;
+    private Info info;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,8 +97,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                     public void onSuccess() {
                                         // TODO Auto-generated method stub
                                         Toast.makeText(LoginActivity.this, "成功登录", Toast.LENGTH_SHORT).show();
+                                        //把昵称和房间号保存到Application
+                                        info=(Info)getApplication();
+                                        info.setRoomId(roomId);
+                                        info.setNickname(nickname);
+                                        Intent intentToChat=new Intent(LoginActivity.this,ChatActivity.class);
+                                        startActivity(intentToChat);
 
                                     }
+
+
 
                                     @Override
                                     public void onFailure(int code, String arg0) {

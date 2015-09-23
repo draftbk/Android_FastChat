@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
+                android:maxLines="1"
                 android:layout_weight="99"
                 android:background="@null"
                 android:gravity="center"
@@ -82,6 +83,7 @@
             <EditText
                 android:id="@+id/edit_nickname"
                 android:layout_width="match_parent"
+                android:maxLines="1"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="99"
