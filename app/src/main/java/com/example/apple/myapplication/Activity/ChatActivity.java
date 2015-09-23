@@ -22,7 +22,7 @@ public class ChatActivity extends Activity {
         setContentView(R.layout.activity_chat);
 
         //获取Application
-        info= (Info) getApplication();
+//        info= (Info) getApplication();
 
 
     }

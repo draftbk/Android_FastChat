@@ -1,7 +1,7 @@
 package com.example.apple.myapplication.Activity;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 
 import com.baidu.location.BDLocation;

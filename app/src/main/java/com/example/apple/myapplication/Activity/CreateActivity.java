@@ -14,6 +14,7 @@ import com.example.apple.myapplication.tools.DoubleClickJuage;
 
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -31,6 +32,8 @@ public class CreateActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+        //初始化 Bmob SDK
+        Bmob.initialize(this, "ca1ecf8f5059480dac61d011da44f5db");
         // 初始化控件
         init();
         //设置监听

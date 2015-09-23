@@ -16,6 +16,7 @@ import com.example.apple.myapplication.tools.DoubleClickJuage;
 
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -33,6 +34,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //初始化 Bmob SDK
+        Bmob.initialize(this, "ca1ecf8f5059480dac61d011da44f5db");
         // 初始化控件
         init();
         //设置监听
@@ -98,9 +101,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                         // TODO Auto-generated method stub
                                         Toast.makeText(LoginActivity.this, "成功登录", Toast.LENGTH_SHORT).show();
                                         //把昵称和房间号保存到Application
-                                        info=(Info)getApplication();
-                                        info.setRoomId(roomId);
-                                        info.setNickname(nickname);
+//                                        info=(Info)getApplication();
+//                                        info.setRoomId(roomId);
+//                                        info.setNickname(nickname);
                                         Intent intentToChat=new Intent(LoginActivity.this,ChatActivity.class);
                                         startActivity(intentToChat);
 
