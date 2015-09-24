@@ -3,11 +3,13 @@ package com.example.apple.myapplication.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.apple.myapplication.Application.Information;
 import com.example.apple.myapplication.Bean.Login;
 import com.example.apple.myapplication.R;
 import com.example.apple.myapplication.tools.DoubleClickJuage;
@@ -28,6 +30,7 @@ public class CreateActivity extends Activity implements View.OnClickListener {
     private EditText editRoom,editPassword,editNickname;
     private Button buttonCreate;
     private String roomId,password,nickname;
+    private Information information;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +97,17 @@ public class CreateActivity extends Activity implements View.OnClickListener {
                                         // TODO Auto-generated method stub
                                         Toast.makeText(CreateActivity.this, "成功", Toast.LENGTH_SHORT).show();
 
-                                    }
+                                                        Toast.makeText(CreateActivity.this, "成功登录", Toast.LENGTH_SHORT).show();
+                                                        //把昵称和房间号保存到Application
+                                                        information = (Information) getApplication();
+                                                        information.setRoomId(roomId);
+                                                        information.setNickname(nickname);
+                                                        Intent intentToChat = new Intent(CreateActivity.this, ChatActivity.class);
+                                                        startActivity(intentToChat);
+
+
+                                        }
+
 
                                     @Override
                                     public void onFailure(int code, String arg0) {

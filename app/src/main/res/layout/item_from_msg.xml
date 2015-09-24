@@ -31,10 +31,11 @@
                 android:src="@drawable/icon" />
 
             <TextView
+                android:id="@+id/text_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="小慕"
+                android:text="某某"
                 android:textSize="18sp" >
             </TextView>
         </LinearLayout>

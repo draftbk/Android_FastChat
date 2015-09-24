@@ -1,6 +1,5 @@
 package com.example.apple.myapplication.Adapter;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import android.content.Context;
@@ -10,19 +9,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.apple.myapplication.Bean.ChatMessage;
+import com.example.apple.myapplication.Bean.Content;
 import com.example.apple.myapplication.R;
 
 
 public class ChatMessageAdapter extends BaseAdapter
 {
 	private LayoutInflater mInflater;
-	private List<ChatMessage> mDatas;
+	private List<Content> mDatas;
+	private String myName;
 
-	public ChatMessageAdapter(Context context, List<ChatMessage> mDatas)
+	public ChatMessageAdapter(Context context, List<Content> mDatas,String myName)
 	{
 		mInflater = LayoutInflater.from(context);
 		this.mDatas = mDatas;
+		this.myName=myName;
 	}
 
 	@Override
@@ -46,12 +47,12 @@ public class ChatMessageAdapter extends BaseAdapter
 	@Override
 	public int getItemViewType(int position)
 	{
-		ChatMessage chatMessage = mDatas.get(position);
-		if (chatMessage.getType() == ChatMessage.Type.INCOMING)
+		Content content = mDatas.get(position);
+		if (content.getNickname().equals(myName))
 		{
-			return 0;
+			return 1;
 		}
-		return 1;
+		return 0;
 	}
 
 	@Override
@@ -63,7 +64,7 @@ public class ChatMessageAdapter extends BaseAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		ChatMessage chatMessage = mDatas.get(position);
+		Content content = mDatas.get(position);
 		ViewHolder viewHolder = null;
 		if (convertView == null)
 		{
@@ -73,6 +74,7 @@ public class ChatMessageAdapter extends BaseAdapter
 				convertView = mInflater.inflate(R.layout.item_from_msg, parent,
 						false);
 				viewHolder = new ViewHolder();
+				viewHolder.nickName=(TextView)convertView.findViewById(R.id.text_nickname);
 				viewHolder.mDate = (TextView) convertView
 						.findViewById(R.id.id_form_msg_date);
 				viewHolder.mMsg = (TextView) convertView
@@ -82,6 +84,7 @@ public class ChatMessageAdapter extends BaseAdapter
 				convertView = mInflater.inflate(R.layout.item_to_msg, parent,
 						false);
 				viewHolder = new ViewHolder();
+				viewHolder.nickName=(TextView)convertView.findViewById(R.id.text_nickname);
 				viewHolder.mDate = (TextView) convertView
 						.findViewById(R.id.id_to_msg_date);
 				viewHolder.mMsg = (TextView) convertView
@@ -92,10 +95,9 @@ public class ChatMessageAdapter extends BaseAdapter
 		{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		// �������
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		viewHolder.mDate.setText(df.format(chatMessage.getDate()));
-		viewHolder.mMsg.setText(chatMessage.getMsg());
+		viewHolder.nickName.setText(content.getNickname());
+		viewHolder.mDate.setText(content.getTime());
+		viewHolder.mMsg.setText(content.getContent());
 		return convertView;
 	}
 
@@ -103,6 +105,7 @@ public class ChatMessageAdapter extends BaseAdapter
 	{
 		TextView mDate;
 		TextView mMsg;
+		TextView nickName;
 	}
 
 }

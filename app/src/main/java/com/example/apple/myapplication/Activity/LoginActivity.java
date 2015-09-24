@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.apple.myapplication.Application.Info;
+import com.example.apple.myapplication.Application.Information;
 import com.example.apple.myapplication.Bean.Login;
 import com.example.apple.myapplication.R;
 import com.example.apple.myapplication.tools.DoubleClickJuage;
@@ -29,7 +29,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private EditText editRoom,editNickname;
     private Button buttonLogin,buttonCreate;
     private String roomId,nickname,password;
-    private Info info;
+    private Information information;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,48 +77,55 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         if (object.size() <6&&object.size()>=1) {
                             //判断是否有密码
                             Boolean judge=false;
+                            Boolean judgeName=false;
                             Log.d("test","password之前"+"     "+password);
                             Log.d("test","object"+"     "+object);
                             for (Login login : object) {
                                 password=login.getPassword();
                                 Log.d("test","password"+"     "+password);
                                 Log.d("test","login.getCreatedAt()"+"     "+login.getCreatedAt());
+                                if (login.getNickname().equals(nickname)){
+                                    judgeName=true;
+                                }
                                 if (!(password==null)){
                                     judge=true;
                                 }
                             }
-                            if (!judge){
-                                //实例化
-                                Login login=new Login();
-                                //设置要传入的内容
-                                login.setNickname(nickname);
-                                login.setRoom_id(roomId);
-                                //开始传入
-                                login.save(LoginActivity.this, new SaveListener() {
-
-                                    @Override
-                                    public void onSuccess() {
-                                        // TODO Auto-generated method stub
-                                        Toast.makeText(LoginActivity.this, "成功登录", Toast.LENGTH_SHORT).show();
-                                        //把昵称和房间号保存到Application
-//                                        info=(Info)getApplication();
-//                                        info.setRoomId(roomId);
-//                                        info.setNickname(nickname);
-                                        Intent intentToChat=new Intent(LoginActivity.this,ChatActivity.class);
-                                        startActivity(intentToChat);
-
-                                    }
-
-
-
-                                    @Override
-                                    public void onFailure(int code, String arg0) {
-                                        // TODO Auto-generated method stub
-                                        Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                            if (judgeName){
+                                Toast.makeText(LoginActivity.this, "用户名已存在，请重新输入", Toast.LENGTH_SHORT).show();
                             }else {
-                                Toast.makeText(LoginActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
+                                if (!judge) {
+                                    //实例化
+                                    Login login = new Login();
+                                    //设置要传入的内容
+                                    login.setNickname(nickname);
+                                    login.setRoom_id(roomId);
+                                    //开始传入
+                                    login.save(LoginActivity.this, new SaveListener() {
+
+                                        @Override
+                                        public void onSuccess() {
+                                            // TODO Auto-generated method stub
+                                            Toast.makeText(LoginActivity.this, "成功登录", Toast.LENGTH_SHORT).show();
+                                            //把昵称和房间号保存到Application
+                                            information = (Information) getApplication();
+                                            information.setRoomId(roomId);
+                                            information.setNickname(nickname);
+                                            Intent intentToChat = new Intent(LoginActivity.this, ChatActivity.class);
+                                            startActivity(intentToChat);
+
+                                        }
+
+
+                                        @Override
+                                        public void onFailure(int code, String arg0) {
+                                            // TODO Auto-generated method stub
+                                            Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                         }else if (object.size()==6){

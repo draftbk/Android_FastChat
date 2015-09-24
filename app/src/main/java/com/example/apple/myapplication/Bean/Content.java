@@ -9,9 +9,18 @@ public class Content extends BmobObject {
     private String nickname;
     private String room_id;
     private String content;
+    private String time;
 
     public String getNickname() {
         return nickname;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public void setNickname(String nickname) {

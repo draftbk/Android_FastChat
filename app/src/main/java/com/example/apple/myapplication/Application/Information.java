@@ -5,9 +5,10 @@ import android.app.Application;
 /**
  * Created by apple on 15/9/23.
  */
-public class Info extends Application {
+public class Information extends Application {
     private String Nickname;
     private String RoomId;
+
 
     public String getNickname() {
         return Nickname;
@@ -24,6 +25,7 @@ public class Info extends Application {
     public void setRoomId(String roomId) {
         RoomId = roomId;
     }
+
     public void onCreate(){
         super.onCreate();
         setRoomId("未能获取");
