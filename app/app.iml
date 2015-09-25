@@ -96,8 +96,6 @@
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="Bmob_Push_V0.6beta_20150408" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.0.0" level="project" />
-    <orderEntry type="library" exported="" name="httpmime-4.1.2" level="project" />
-    <orderEntry type="library" exported="" name="BaiduLBS_Android" level="project" />
     <orderEntry type="library" exported="" name="okio-1.4.0" level="project" />
   </component>
 </module>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.apple.myapplication.Adapter.ChatMessageAdapter;
@@ -41,6 +42,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     private Button mSendMsg;
     private ChatMessageAdapter adapter;
     private String latestTime,objectId;
+    private TextView chatTitle;
 
 
 
@@ -58,6 +60,8 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         mDatas= new ArrayList<Content>();
         //实例化控件
         initView();
+        //设置房间名
+        chatTitle.setText(information.getRoomId());
         //设置监听
         mSendMsg.setOnClickListener(this);
 
@@ -184,6 +188,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
 
     private void initView()
         {
+            chatTitle=(TextView)findViewById(R.id.chat_title);
             mMsgs = (ListView) findViewById(R.id.id_listview_msgs);
             mInputMsg = (EditText) findViewById(R.id.id_input_msg);
             mSendMsg = (Button) findViewById(R.id.id_send_msg);

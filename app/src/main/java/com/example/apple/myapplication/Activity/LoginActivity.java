@@ -1,6 +1,8 @@
 package com.example.apple.myapplication.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -124,6 +126,21 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                         }
                                     });
                                 } else {
+                                     final EditText editPassword=new EditText(LoginActivity.this);
+                                     AlertDialog show = new AlertDialog.Builder(LoginActivity.this).setTitle("请输入密码").setIcon(
+                                            android.R.drawable.ic_dialog_info).setView(
+                                            editPassword).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if(editPassword.getText().toString().equals(password)){
+                                                InTheRoom();
+                                            }else {
+                                                Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+                                    })
+                                            .setNegativeButton("取消", null).show();
                                     Toast.makeText(LoginActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -153,6 +170,38 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void InTheRoom() {
+        //实例化
+        Login login = new Login();
+        //设置要传入的内容
+        login.setNickname(nickname);
+        login.setRoom_id(roomId);
+        login.setPassword(password);
+        //开始传入
+        login.save(LoginActivity.this, new SaveListener() {
+
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                Toast.makeText(LoginActivity.this, "成功登录", Toast.LENGTH_SHORT).show();
+                //把昵称和房间号保存到Application
+                information = (Information) getApplication();
+                information.setRoomId(roomId);
+                information.setNickname(nickname);
+                Intent intentToChat = new Intent(LoginActivity.this, ChatActivity.class);
+                startActivity(intentToChat);
+
+            }
+
+
+            @Override
+            public void onFailure(int code, String arg0) {
+                // TODO Auto-generated method stub
+                Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

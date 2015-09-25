@@ -8,9 +8,10 @@
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/title_bar" >
+        android:background="#4c5053" >
 
         <TextView
+            android:id="@+id/chat_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -19,12 +20,23 @@
             android:textSize="22sp" />
     </RelativeLayout>
 
+
     <RelativeLayout
         android:id="@+id/id_ly_bottom"
         android:layout_width="fill_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_bar" >
+        android:background="@drawable/bottom_bar">
+
+
+
+        <Button
+            android:id="@+id/send_yuyin"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/yuyinbai" />
 
         <Button
             android:id="@+id/id_send_msg"
@@ -32,7 +44,6 @@
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/send_btn_normal"
             android:text="发送" />
 
         <EditText
@@ -42,8 +53,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:background="@drawable/edit_white"
+            android:layout_toRightOf="@+id/send_yuyin"
             android:layout_toLeftOf="@id/id_send_msg"
-            android:background="@drawable/login_edit_normal"
             android:textSize="18sp" />
     </RelativeLayout>
 
