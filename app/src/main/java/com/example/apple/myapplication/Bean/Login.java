@@ -9,6 +9,24 @@ public class Login extends BmobObject {
     private String nickname;
     private String room_id;
     private String password;
+    private String lon;
+    private String lat;
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
 
     public String getNickname() {
         return nickname;

@@ -25,9 +25,11 @@ import java.util.Timer;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by apple on 15/9/20.
@@ -92,6 +94,11 @@ public class ChatActivity extends Activity implements View.OnClickListener {
 
     protected void onStop(){
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         SharedPreferences.Editor editor=getSharedPreferences("data",MODE_PRIVATE).edit();
         editor.putString("latestTime", "20121212121212");
         editor.commit();
@@ -107,7 +114,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
             public void onSuccess(List<Login> object) {
                 // TODO Auto-generated method stub
                 for (Login login : object) {
-                     objectId=login.getObjectId();
+                    objectId=login.getObjectId();
                 }
             }
             @Override
@@ -133,6 +140,8 @@ public class ChatActivity extends Activity implements View.OnClickListener {
             }
         });
     }
+
+
 
     private void CheckMessage() {
 
@@ -234,6 +243,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                         }
                     });
                 }
+                
                 break;
         }
     }

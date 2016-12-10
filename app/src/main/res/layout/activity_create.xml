@@ -5,12 +5,19 @@
     android:background="#00b7ee"
     android:orientation="vertical">
 
-
+    <TextView
+        android:text=""
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/text_location" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -158,5 +165,15 @@
         android:background="@drawable/login_button"
         android:textColor="#ffffff"
         android:text="创建" />
+
+    <Switch
+        android:layout_marginTop="7dp"
+        android:text="是否通过地理位置创建-->"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/switch_location" />
 
 </LinearLayout>

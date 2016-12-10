@@ -126,8 +126,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                         }
                                     });
                                 } else {
-                                     final EditText editPassword=new EditText(LoginActivity.this);
-                                     AlertDialog show = new AlertDialog.Builder(LoginActivity.this).setTitle("请输入密码").setIcon(
+                                    final EditText editPassword=new EditText(LoginActivity.this);
+                                    new AlertDialog.Builder(LoginActivity.this).setTitle("请输入密码").setIcon(
                                             android.R.drawable.ic_dialog_info).setView(
                                             editPassword).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
@@ -139,8 +139,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                             }
 
                                         }
-                                    })
-                                            .setNegativeButton("取消", null).show();
+                                    }).setNegativeButton("取消", null).show();
                                     Toast.makeText(LoginActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
                                 }
                             }
