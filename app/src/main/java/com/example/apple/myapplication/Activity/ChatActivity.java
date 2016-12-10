@@ -1,7 +1,7 @@
 package com.example.apple.myapplication.Activity;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +18,8 @@ import com.example.apple.myapplication.Bean.Login;
 import com.example.apple.myapplication.R;
 import com.example.apple.myapplication.tools.GetNumberFromString;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.Timer;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
@@ -41,10 +44,12 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     private ChatMessageAdapter mAdapter;
     private List<Content> mDatas;
     private EditText mInputMsg;
-    private Button mSendMsg;
+    private Button mSendMsg,mDis;
     private ChatMessageAdapter adapter;
     private String latestTime,objectId;
     private TextView chatTitle;
+    private String lastContent="";
+    private String lastCreatedAt = "2016-12-10 11:07:37";
 
 
 
@@ -53,6 +58,9 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        lastCreatedAt=df.format(new Date());// new Date()为获取当前系统时间
+        lastCreatedAt=lastCreatedAt+" 00:00:00";
         //初始化 Bmob SDK
         Bmob.initialize(this, "ca1ecf8f5059480dac61d011da44f5db");
 
@@ -99,9 +107,6 @@ public class ChatActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SharedPreferences.Editor editor=getSharedPreferences("data",MODE_PRIVATE).edit();
-        editor.putString("latestTime", "20121212121212");
-        editor.commit();
         //删除账号
         BmobQuery<Login> query = new BmobQuery<Login>();
         query.addWhereEqualTo("room_id",information.getRoomId());
@@ -149,7 +154,15 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         //查询playerName叫“比目”的数据
         query.addWhereEqualTo("room_id", information.getRoomId());
         //返回50条数据，如果不加上这条语句，默认返回10条数据
-        query.setLimit(50);
+        query.setLimit(10);
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date lastDate = sdf.parse(lastCreatedAt);
+            query.addWhereGreaterThan("createdAt",new BmobDate(lastDate));
+            query.order("createdAt");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         //执行查询方法
         query.findObjects(this, new FindListener<Content>() {
             @Override
@@ -157,29 +170,27 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                 // TODO Auto-generated method stub
                 for (Content content : object) {
                     //获取上一次最近时间
-                    SharedPreferences pref=getSharedPreferences("data",MODE_PRIVATE);
-                    String lastLatestTime=pref.getString("latestTime", "0");
-                    GetNumberFromString getNumberFromString=new GetNumberFromString();
-                    if (getNumberFromString.change(lastLatestTime)<getNumberFromString.change(content.getCreatedAt()))
-                    {
 
-                        Content content1=new Content();
-                        content1.setNickname(content.getNickname());
-                        content1.setRoom_id(content.getRoom_id());
-                        content1.setContent(content.getContent());
-                        content1.setTime(content.getCreatedAt());
-                        //更新最近的接受到的聊天消息的时间
-                        latestTime=content.getCreatedAt();
+                    Content content1=new Content();
+                    content1.setNickname(content.getNickname());
+                    content1.setRoom_id(content.getRoom_id());
+                    content1.setContent(content.getContent());
+                    content1.setTime(content.getCreatedAt());
+                    //更新最近的接受到的聊天消息的时间
+                    if (lastContent.equals(content.getContent())&&
+                            lastCreatedAt.equals(content.getCreatedAt())){
+
+                    }else if (GetNumberFromString.change(lastCreatedAt)>=GetNumberFromString.change(content.getCreatedAt())){
+
+                    } else {
+                        //保存最近的时间
+                        lastCreatedAt=content.getCreatedAt();
                         mDatas.add(content1);
-
+                        lastContent=content1.getContent();
                     }
 
-                }
 
-                //保存最近的时间
-                SharedPreferences.Editor editor=getSharedPreferences("data",MODE_PRIVATE).edit();
-                editor.putString("latestTime",latestTime);
-                editor.commit();
+                }
 
                 adapter.notifyDataSetChanged();
 
@@ -201,12 +212,53 @@ public class ChatActivity extends Activity implements View.OnClickListener {
             mMsgs = (ListView) findViewById(R.id.id_listview_msgs);
             mInputMsg = (EditText) findViewById(R.id.id_input_msg);
             mSendMsg = (Button) findViewById(R.id.id_send_msg);
+            mDis= (Button) findViewById(R.id.send_yuyin);
+            mDis.setOnClickListener(this);
         }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.send_yuyin:
+                Log.e("test","11111");
+                String mess1="我离房主的距离："+information.getDis()+"m";
+                if (mess1.equals("")){
+                    Toast.makeText(ChatActivity.this, "发送消息不能为空", Toast.LENGTH_SHORT).show();
+                }else {
+                    Log.e("test","11111");
+                    String nickname=information.getNickname();
+                    String roomId=information.getRoomId();
+                    //上传消息
+                    Content content = new Content();
+                    Log.e("test","11111");
+                    content.setRoom_id(roomId);
+                    content.setNickname(nickname);
+                    content.setContent(mess1);
+                    content.save(ChatActivity.this, new SaveListener() {
+
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+//                            mInputMsg.setText("");
+                            //滚动到底部
+//                            try {
+//                                Thread.sleep(1000);
+//                                mMsgs.setSelection(mMsgs.getBottom());
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+                            Toast.makeText(ChatActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(int code, String arg0) {
+                            // TODO Auto-generated method stub
+                            // 添加失败
+                        }
+                    });
+                }
+                break;
             case R.id.id_send_msg:
                 String mess=mInputMsg.getText().toString();
                 if (mess.equals("")){
@@ -216,7 +268,6 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                     String roomId=information.getRoomId();
                     //上传消息
                     Content content = new Content();
-
                     content.setRoom_id(roomId);
                     content.setNickname(nickname);
                     content.setContent(mess);
@@ -226,14 +277,14 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                         public void onSuccess() {
                             // TODO Auto-generated method stub
                             mInputMsg.setText("");
-                            //滚动到底部
-                            try {
-                                Thread.sleep(1000);
-                                mMsgs.setSelection(mMsgs.getBottom());
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            Toast.makeText(ChatActivity.this, "上传数据成功", Toast.LENGTH_SHORT).show();
+//                            //滚动到底部
+//                            try {
+//                                Thread.sleep(1000);
+//                                mMsgs.setSelection(mMsgs.getBottom());
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+                            Toast.makeText(ChatActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

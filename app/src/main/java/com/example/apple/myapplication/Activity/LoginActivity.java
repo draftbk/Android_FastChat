@@ -227,7 +227,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });
     }
 
-    private void InTheGPSRoom() {
+    private void InTheGPSRoom(String dis) {
+        final String dis1=dis;
         //实例化
         Login login = new Login();
         //设置要传入的内容
@@ -247,6 +248,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 information = (Information) getApplication();
                 information.setRoomId(roomId);
                 information.setNickname(nickname);
+                information.setDis(dis1);
                 Intent intentToChat = new Intent(LoginActivity.this, ChatActivity.class);
                 startActivity(intentToChat);
 
@@ -342,7 +344,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 //                        得到距离
                             Double dis= LocationTools.getDistance(lon,lat,otherLon,otherLat);
                             if (dis<2000){
-                                InTheGPSRoom();
+                                InTheGPSRoom(dis+"");
                             }else {
                                 Toast.makeText(LoginActivity.this, "距离太远无法加入", Toast.LENGTH_SHORT).show();
                             }

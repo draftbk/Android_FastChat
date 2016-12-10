@@ -8,7 +8,15 @@ import android.app.Application;
 public class Information extends Application {
     private String Nickname;
     private String RoomId;
+    private String Dis;
 
+    public String getDis() {
+        return Dis;
+    }
+
+    public void setDis(String dis) {
+        Dis = dis;
+    }
 
     public String getNickname() {
         return Nickname;

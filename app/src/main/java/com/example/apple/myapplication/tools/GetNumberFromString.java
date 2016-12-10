@@ -5,7 +5,7 @@ package com.example.apple.myapplication.tools;
  */
 public class GetNumberFromString {
 
-    public Long change(String str){
+    public static Long change(String str){
         str=str.trim();
         String str2="";
         if(str != null && !"".equals(str)){

@@ -153,6 +153,7 @@ public class CreateActivity extends Activity implements View.OnClickListener {
                                         information = (Information) getApplication();
                                         information.setRoomId(roomId);
                                         information.setNickname(nickname);
+                                        information.setDis("0");
                                         Intent intentToChat = new Intent(CreateActivity.this, ChatActivity.class);
                                         startActivity(intentToChat);
 

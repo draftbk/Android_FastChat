@@ -35,7 +35,6 @@
             android:value="1uNivKb7Te0MKt23mHaqWsdp" />
         <activity android:name=".Activity.CreateActivity" >
         </activity>
-
         <activity android:name=".Activity.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
